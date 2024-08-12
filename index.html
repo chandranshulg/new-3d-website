@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Rotating Cube</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #282c34;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .scene {
+            width: 300px;
+            height: 300px;
+            perspective: 800px;
+        }
+        .cube {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transform: rotateX(0deg) rotateY(0deg);
+            animation: rotate 5s infinite linear;
+        }
+        .cube div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .front  { transform: translateZ(150px); }
+        .back   { transform: rotateY(180deg) translateZ(150px); }
+        .right  { transform: rotateY(90deg) translateZ(150px); }
+        .left   { transform: rotateY(-90deg) translateZ(150px); }
+        .top    { transform: rotateX(90deg) translateZ(150px); }
+        .bottom { transform: rotateX(-90deg) translateZ(150px); }
+
+        @keyframes rotate {
+            from {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            to {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <div class="cube">
+            <div class="front">Front</div>
+            <div class="back">Back</div>
+            <div class="right">Right</div>
+            <div class="left">Left</div>
+            <div class="top">Top</div>
+            <div class="bottom">Bottom</div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for additional interactivity
+        const cube = document.querySelector('.cube');
+        let mouseDown = false;
+        let startX, startY, currentX, currentY, xOffset = 0, yOffset = 0;
+
+        document.addEventListener('mousedown', (e) => {
+            mouseDown = true;
+            startX = e.clientX - xOffset;
+            startY = e.clientY - yOffset;
+        });
+
+        document.addEventListener('mouseup', () => {
+            mouseDown = false;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!mouseDown) return;
+            e.preventDefault();
+            currentX = e.clientX;
+            currentY = e.clientY;
+            xOffset = currentX - startX;
+            yOffset = currentY - startY;
+            cube.style.transform = `rotateX(${(yOffset / window.innerHeight) * 360}deg) rotateY(${(xOffset / window.innerWidth) * 360}deg)`;
+        });
+
+        document.addEventListener('touchstart', (e) => {
+            mouseDown = true;
+            startX = e.touches[0].clientX - xOffset;
+            startY = e.touches[0].clientY - yOffset;
+        });
+
+        document.addEventListener('touchend', () => {
+            mouseDown = false;
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!mouseDown) return;
+            e.preventDefault();
+            currentX = e.touches[0].clientX;
+            currentY = e.touches[0].clientY;
+            xOffset = currentX - startX;
+            yOffset = currentY - startY;
+            cube.style.transform = `rotateX(${(yOffset / window.innerHeight) * 360}deg) rotateY(${(xOffset / window.innerWidth) * 360}deg)`;
+        });
+    </script>
+</body>
+</html>
