@@ -21,7 +21,7 @@ You can view the live demo of the 3D rotating cube [here](https://chandranshulg.
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/3D-Rotating-Cube.git
+   git clone https://github.com/chandrashulg/3D-Rotating-Cube.git
    cd 3D-Rotating-Cube
 2. **Open the index.html File**
 
